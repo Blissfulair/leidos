@@ -1,0 +1,19 @@
+    button.delete_button{
+        margin: 0.5em 0;
+        padding: 0.3em 0.5em;
+        background-color: #c7c4c4b5;
+        outline: none;
+        border: none;
+        border: 1px solid #c7c4c4b5;
+        border-collapse: collapse;
+        border-radius: 0.2em;
+        transition: all 0.5s;
+        &:hover{
+            cursor: pointer;
+            background-color: #c7c4c4fc;
+        }
+        &.disable{
+            cursor:none;
+            opacity:0.5
+        }
+    } 

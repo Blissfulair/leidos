@@ -1,0 +1,17 @@
+div.bottom{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    .inner{
+        width: 98%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+}
+#root{
+    position: relative;
+}
