@@ -9,6 +9,17 @@ div.bottom{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        button{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0.8em 1em;
+            border-radius: .3em;
+            border: 1px solid #eb4a4a;
+            svg{
+                margin-right: .5em;
+            }
+        }
     }
 
 }

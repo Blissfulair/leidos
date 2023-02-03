@@ -13,7 +13,7 @@ export interface PayloadProps{
     status?:string
 }
 type Action1 = {
-    type:'add' | 'remove' |'updateQty' | 'qty',
+    type:'add' | 'remove' |'updateQty' | 'qty' | 'clear',
     payload:Data
 }
 type Action2 = {
@@ -72,6 +72,12 @@ export const reducer = (state:State,action:Action)=>{
             return{
                 ...state,
                 items:state.items,
+                selected: []
+            }
+        case 'clear':
+            return{
+                ...state,
+                items:[],
                 selected: []
             }
         case 'select':

@@ -1,6 +1,7 @@
+import React from 'react'
 import './css/delete_button.scss'
 type Props = {
-    children:string,
+    children:React.ReactNode,
     onClick?:()=>void,
     disabled?:boolean
 }

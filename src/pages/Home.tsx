@@ -7,6 +7,7 @@ import Popup from '../component/Popup';
 import Table, { Data } from '../component/Table';
 import '../css/home.scss'
 import { data as database } from '../data';
+import { FaTrash } from "react-icons/fa";
 import AppContext from '../state/context';
 
 
@@ -94,6 +95,9 @@ const onFinish =()=>{
 
 }
 
+const onCancel = ()=>{
+    dispatch({ type:'clear',payload:{} as Data })
+}
 //barcode scanner
 BarcodeReader({
     onDetected:(code)=>{
@@ -131,14 +135,14 @@ BarcodeReader({
                         </ul>
                     </div>
                     <div className='second'>
-                        <DeleteButton onClick={()=>onDelete()} disabled={state.selected.length<1}>Delete</DeleteButton>
+                        <DeleteButton onClick={()=>onDelete()} disabled={state.selected.length<1}> <FaTrash/> Delete</DeleteButton>
                     </div>
                     <Table refs={ref} onSelect={onSelect} columns={tableColumns} data={state.items} select/>
                    
                 </div>
                 
             </div>
-            <Bottom onFinish={()=>onFinish()}/>
+            <Bottom onCancel={onCancel} onFinish={()=>onFinish()}/>
         </>
     )
 }
