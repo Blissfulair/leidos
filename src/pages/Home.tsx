@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
+import React, {useContext, useState, useRef} from 'react';
 import BarcodeReader from '../component/BarcodeReader';
 import Bottom from '../component/Bottom';
 import DeleteButton from '../component/DeleteButton';
@@ -9,6 +9,7 @@ import '../css/home.scss'
 import { data as database } from '../data';
 import { FaTrash } from "react-icons/fa";
 import AppContext from '../state/context';
+import QRCode from 'react-qr-code';
 
 
 const Home = ()=>{
@@ -56,7 +57,6 @@ const Home = ()=>{
         }
         else{
             const edit =state.items.filter(e=>e.tag === `N${code}`); 
-            console.log(edit,code, 'second')
             if(edit.length>0){
                 edit[0].qty +=1
                 dispatch({type:'updateQty',payload:edit[0]})
@@ -88,6 +88,7 @@ const closePopup=()=>{
     setPopup(false)
 }
 
+
 const onFinish =()=>{
     setPopup(false)
     if(state.items.length<1)return
@@ -96,7 +97,7 @@ const onFinish =()=>{
 }
 
 const onCancel = ()=>{
-    dispatch({ type:'clear',payload:{} as Data })
+   return dispatch({ type:'clear',payload:{} as Data })
 }
 //barcode scanner
 BarcodeReader({
@@ -105,15 +106,13 @@ BarcodeReader({
     },
     ref:ref
 })
-// useEffect(()=>{
-//     setTimeout(()=>{
-//             ref.current?.blur()
-//         },500) 
-// },[state.items])
+
 
     return (
         <>
-            <Popup onOpen={onFinish} onClose={closePopup} visible={popup} data={state.items} />
+            <Popup onOpen={onFinish} onClose={closePopup} visible={popup}>
+                <QRCode value={JSON.stringify(state.items)} />
+            </Popup>
             <Header/>
             <div className="container">
                 <div className='inner'>
@@ -137,7 +136,7 @@ BarcodeReader({
                     <div className='second'>
                         <DeleteButton onClick={()=>onDelete()} disabled={state.selected.length<1}> <FaTrash/> Delete</DeleteButton>
                     </div>
-                    <Table refs={ref} onSelect={onSelect} columns={tableColumns} data={state.items} select/>
+                    <Table ref={ref} onSelect={onSelect} columns={tableColumns} data={state.items} select/>
                    
                 </div>
                 

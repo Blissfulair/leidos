@@ -6,36 +6,76 @@ interface Props{
 }
 
 const BarcodeReader : React.FC<Props> = ({onDetected,ref})=>{
-    const [barcode, setBarcode] = useState('')
+    const [barcode, setBarcode] = useState<string>('')
+    const [time, setTime] = useState<number>(0)
+    const [enterings, setEnterings] = useState<string>('')
+    // useEffect(()=>{
+    //     console.log('blur')
+    //     // setTimeout(()=>{
+    //             ref.current?.blur()
+    //         // },500) 
+    // },[enterings])
 
     useEffect(()=>{
-        const handleKeyUp =(e:KeyboardEventInit)=>{
-            console.log(e)
-        }
+        let timeoutId:NodeJS.Timeout
+
         const handleKeyDown = (e:KeyboardEvent)=>{
-           
-            console.log('keydown')
+     
+        
+            if(document.activeElement !== ref.current)
+            {
+                if(ref.current)
+                {
+                    ref.current.setAttribute('disabled','disabled')
+                }
             if(e.target){
                 if(Object.keys(e.target).length<1){
+                   
                     if(e.key === 'Shift' || e.key  === 'Backspace' || e.key === 'Ctrl') return
-                    setBarcode(barcode+e.key)
+                    const t = new Date().getTime()
+                    setEnterings(enterings+e.key)
+                    if(enterings.length<1){
+                        setBarcode(barcode+e.key.toUpperCase())
+                        setTime(t)
+                     }
+                    else if((t - time)<50)
+                    {
+                        setBarcode(barcode+e.key)
+                        setTime(t)
+                    }
+                    else if(enterings.length>0){
+                        setBarcode('')
+                        setEnterings('')
+                        setTime(0)  
+                    }
                     
                     if(e.key ==='Enter'){
                         onDetected(barcode)
                         setBarcode('')
+                        setEnterings('')
+                        setTime(0)
+                        
                     }
                 }
             }
+            }
+            else{
+                console.log('here')
+            // clearTimeout(timeoutId)
+            // timeoutId = setTimeout(()=>{
+
+            // })
+                // ref.current?.blur()
+                // document.body.blur()
+            }
 
         }
-        if(document.activeElement !== ref.current)
-        {
+
             document.addEventListener('keydown',handleKeyDown)
-            document.addEventListener('keyup',handleKeyUp)
-        }
+
         return ()=>{
             document.removeEventListener('keydown',handleKeyDown)
-            document.removeEventListener('keyup',handleKeyUp)
+            
         }
     },[onDetected])
     return<></>

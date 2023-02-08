@@ -8,7 +8,12 @@ const Bottom = ({onFinish,onCancel}:Props)=>{
     return (
         <div className="bottom">
             <div className="inner">
-                <button style={{ backgroundColor:'#fff',color:'#eb4a4a' }} onClick={onCancel}><FaTimesCircle color='#eb4a4a'/>  Cancel</button>
+                <button tabIndex={-1} style={{ backgroundColor:'#fff',color:'#eb4a4a' }} 
+                onClick={(e)=>{
+                    onCancel&&
+                    onCancel()
+                    
+                }}><FaTimesCircle color='#eb4a4a'/>  Cancel</button>
                 <button style={{ backgroundColor:'#0169b9',color:'#fff',borderColor:'#0169b9' }} onClick={()=>onFinish()}><FaCheck color='#fff'/>Finish</button>
             </div>
         </div>

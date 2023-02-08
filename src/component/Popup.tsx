@@ -1,14 +1,13 @@
-import QRCode from "react-qr-code"
-import { Data } from "./Table"
 import './css/popup.scss'
 
 type Props = {
-    data:Data[],
+    children?:React.ReactNode
     visible:boolean,
+    innerStyle?:React.CSSProperties,
     onClose:()=>void,
     onOpen:()=>void
 }
-const Popup = ({data,visible,onClose}:Props)=>{
+const Popup = ({children,visible,onClose,innerStyle}:Props)=>{
 
     return (
         <div className={`popup ${visible?'':'hidden'}`} onClick={onClose}>
@@ -16,10 +15,11 @@ const Popup = ({data,visible,onClose}:Props)=>{
             className="inner" 
             onClick={e=>e.stopPropagation()}
             style={{
+                ...innerStyle,
                 animation:"onOpen 0.5s ease-in-out"
             }}
             >
-                <QRCode value={JSON.stringify(data)}/>
+                {children}
             </div>
         </div>
     )

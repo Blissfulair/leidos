@@ -1,6 +1,7 @@
-import React,{ useContext, useEffect, useState,useRef } from 'react'
+import React,{ useContext, useEffect, useState,forwardRef } from 'react'
 import AppContext from '../state/context'
 import './css/table.scss'
+import Popup from './Popup'
 export interface Data{
     tag:string
     stock_num:string
@@ -17,7 +18,7 @@ type Props={
     data:Data[],
     select?:boolean,
     selected?:string[],
-    refs?:React.RefObject<HTMLInputElement>,
+    
     onSelect:(e:string,isChecked:boolean)=>void
 }
 
@@ -26,35 +27,21 @@ type InputProps={
     defaultValue:string
 }
 const Input = ({onChange,defaultValue}:InputProps)=>{
-    const ref = useRef<HTMLInputElement>(null)
-
-    useEffect(()=>{
-        const input = ref.current
-        if(!input) return
-
-        let timeoutId:NodeJS.Timeout
-        const handleInput=()=>{
-            clearTimeout(timeoutId)
-            timeoutId = setTimeout(()=>input.blur(),1000)
-        }
-        input.addEventListener('input',handleInput)
-        return ()=>{
-            input.removeEventListener('input',handleInput)
-            clearTimeout(timeoutId)
-        }
-    }, [ref])
+    
 
     return(
         <>
             
-            <input ref={ref} className='qty' type={'text'} value={defaultValue} onChange={e=>onChange(e.target.value)} />
+            <input autoFocus  className='qty' type={'number'} value={defaultValue} onChange={e=>onChange(e.target.value)} />
         </>
     )
 }
 
-const Table=({columns,data,select,onSelect,refs}:Props)=>{
+const Table=({columns,data,select,onSelect}:Props,ref?:React.Ref<HTMLInputElement>)=>{
     const {dispatch,state} = useContext(AppContext)
     const [isChecked,setIsChecked] = useState<boolean>(false)
+    const [editModal,setEditModal] = useState<boolean>(false)
+    const [itemm,setItemm] = useState({} as Data)
     const selectAll = (isChecked:boolean)=>{
         
         if(isChecked){
@@ -68,14 +55,58 @@ const Table=({columns,data,select,onSelect,refs}:Props)=>{
     }
 
     const setQty=(val:string,tag:string)=>{
-        const qty = val.length<1?0:Number(val)
+        const qty = val.length<1?0:parseInt(val)
         dispatch({ type:'qty',payload:{tag,qty} as Data })
+    }
+
+    const closeEditModal = ()=>{
+        setEditModal(false)
+        setItemm({} as Data)
+    }
+    
+    const openEditModal = ()=>{
+        setEditModal(true)
     }
     useEffect(()=>{
         if(state.selected.length<1)
         setIsChecked(false)
     },[state.selected])
     return(
+        <>
+        <Popup
+        onClose={closeEditModal}
+        visible={editModal}
+        onOpen={openEditModal}
+        innerStyle={{
+            minHeight:20,
+            width:'80%'
+        }}
+        >
+             <table className="d_table">
+            <tbody>
+                {
+
+                            <tr>
+
+                                <td>{itemm.tag}</td>
+                                <td>{itemm.stock_num}</td>
+                                <td>{itemm.item_desc}</td>
+                                <td>
+                                    <Input defaultValue={itemm?(itemm.qty?itemm.qty.toString():'0'):'0'} onChange={(qty)=>setQty(qty,itemm.tag)}/>
+
+                                </td>
+
+                                <td>{itemm.icn}</td>
+                                <td>{itemm.serial_num}</td>
+                                <td>{itemm.date_captured}</td>
+                                <td>{itemm.qr_id}</td>
+                                <td>{itemm.status}</td>
+                            </tr>
+
+                }
+            </tbody>
+        </table>
+        </Popup>
         <table className="d_tables">
             {
                 columns&&
@@ -84,7 +115,9 @@ const Table=({columns,data,select,onSelect,refs}:Props)=>{
                         {
                         select&&
                         <th>
-                            <input  checked={isChecked} onChange={(e)=>selectAll(e.target.checked)} type='checkbox'/>
+                            <label className='form-control'>
+                                <input   checked={isChecked} onChange={(e)=>selectAll(e.target.checked)} type='checkbox'/>
+                            </label>
                         </th>
                         }
                         {
@@ -104,7 +137,9 @@ const Table=({columns,data,select,onSelect,refs}:Props)=>{
                                 {
                                 select&&
                                 <td>
-                                    <input checked={checked} onChange={(e)=>onSelect(item.tag,e.target.checked)} id={item.stock_num} type='checkbox'/>
+                                    <label className='form-control'>
+                                        <input checked={checked} onChange={(e)=>onSelect(item.tag,e.target.checked)} id={item.stock_num} type='checkbox'/>
+                                    </label>
                                 </td>
                                 }
                                 <td>{item.tag}</td>
@@ -112,7 +147,11 @@ const Table=({columns,data,select,onSelect,refs}:Props)=>{
                                 <td>{item.item_desc}</td>
                                 {/* <td><input className='qty' ref={refs} onChange={(e)=>setQty(e.target.value,item.tag)} maxLength={4} type={'text'}  value={item.qty} /></td> */}
                                 <td>
-                                    <Input defaultValue={item.qty.toString()} onChange={(qty)=>setQty(qty,item.tag)}/>
+                                    {/* <Input refs={ref} defaultValue={item.qty.toString()} onChange={(qty)=>setQty(qty,item.tag)}/> */}
+                                    <button onClick={()=>{
+                                        openEditModal()
+                                        setItemm(item)
+                                    }}>{itemm?(itemm.tag=== item.tag?itemm.qty:item.qty.toString()):item.qty.toString()}</button>
                                 </td>
 
                                 <td>{item.icn}</td>
@@ -126,6 +165,7 @@ const Table=({columns,data,select,onSelect,refs}:Props)=>{
                 }
             </tbody>
         </table>
+        </>
     )
 }
-export default Table
+export default forwardRef(Table)
