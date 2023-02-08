@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef} from 'react';
+import {useContext, useState, useRef} from 'react';
 import BarcodeReader from '../component/BarcodeReader';
 import Bottom from '../component/Bottom';
 import DeleteButton from '../component/DeleteButton';
@@ -28,6 +28,11 @@ const Home = ()=>{
     const [popup,setPopup] = useState<boolean>(false)
     const ref = useRef<HTMLInputElement>(null)
 
+
+    /**
+     * 
+     * onAddItem takes the barcode from BarcodeReader onDetected method and construct the item object and store it 
+     */
     const onAddItem=(code:string)=>{
         const item = {
             tag:`N${code}`,
@@ -40,6 +45,8 @@ const Home = ()=>{
             qr_id:'9267823-DJK7990-JHHHKS8789',
             status:'Item not found'
         }
+
+        //This if statement adds item that is found on the database
         if(Object.keys(database).includes(code)){
             item.status = '...' //Change the defined status
             const edit =state.items.filter(e=>e.tag === `N${code}`); 
@@ -55,6 +62,7 @@ const Home = ()=>{
              }
            
         }
+        //The else statement adds item that is not found on the database
         else{
             const edit =state.items.filter(e=>e.tag === `N${code}`); 
             if(edit.length>0){
@@ -69,6 +77,7 @@ const Home = ()=>{
         }
     }
 
+//Keeps track of selected items when a checkbox is checked
 const onSelect =(item:string,isChecked:boolean)=>{
     
     
@@ -81,14 +90,19 @@ const onSelect =(item:string,isChecked:boolean)=>{
     }
     
 }
+
+//Deletes selected Items
 const onDelete=()=>{
         dispatch({ type:'remove',payload:{} as Data })
 }
+
+//closePopup closes the modal
 const closePopup=()=>{
     setPopup(false)
 }
 
 
+//This function opens the QRCode Modal when the finish button is pressed
 const onFinish =()=>{
     setPopup(false)
     if(state.items.length<1)return
@@ -96,6 +110,7 @@ const onFinish =()=>{
 
 }
 
+//This function deletes all scanned items when the cancel button is pressed
 const onCancel = ()=>{
    return dispatch({ type:'clear',payload:{} as Data })
 }

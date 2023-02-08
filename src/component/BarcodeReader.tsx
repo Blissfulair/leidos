@@ -9,12 +9,6 @@ const BarcodeReader : React.FC<Props> = ({onDetected,ref})=>{
     const [barcode, setBarcode] = useState<string>('')
     const [time, setTime] = useState<number>(0)
     const [enterings, setEnterings] = useState<string>('')
-    // useEffect(()=>{
-    //     console.log('blur')
-    //     // setTimeout(()=>{
-    //             ref.current?.blur()
-    //         // },500) 
-    // },[enterings])
 
     useEffect(()=>{
         let timeoutId:NodeJS.Timeout
@@ -24,10 +18,6 @@ const BarcodeReader : React.FC<Props> = ({onDetected,ref})=>{
         
             if(document.activeElement !== ref.current)
             {
-                if(ref.current)
-                {
-                    ref.current.setAttribute('disabled','disabled')
-                }
             if(e.target){
                 if(Object.keys(e.target).length<1){
                    
@@ -58,15 +48,6 @@ const BarcodeReader : React.FC<Props> = ({onDetected,ref})=>{
                     }
                 }
             }
-            }
-            else{
-                console.log('here')
-            // clearTimeout(timeoutId)
-            // timeoutId = setTimeout(()=>{
-
-            // })
-                // ref.current?.blur()
-                // document.body.blur()
             }
 
         }

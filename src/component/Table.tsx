@@ -30,8 +30,7 @@ const Input = ({onChange,defaultValue}:InputProps)=>{
     
 
     return(
-        <>
-            
+        <>  
             <input autoFocus  className='qty' type={'number'} value={defaultValue} onChange={e=>onChange(e.target.value)} />
         </>
     )
@@ -86,22 +85,22 @@ const Table=({columns,data,select,onSelect}:Props,ref?:React.Ref<HTMLInputElemen
             <tbody>
                 {
 
-                            <tr>
+                    <tr>
 
-                                <td>{itemm.tag}</td>
-                                <td>{itemm.stock_num}</td>
-                                <td>{itemm.item_desc}</td>
-                                <td>
-                                    <Input defaultValue={itemm?(itemm.qty?itemm.qty.toString():'0'):'0'} onChange={(qty)=>setQty(qty,itemm.tag)}/>
+                        <td>{itemm.tag}</td>
+                        <td>{itemm.stock_num}</td>
+                        <td>{itemm.item_desc}</td>
+                        <td>
+                            <Input defaultValue={itemm?(itemm.qty?itemm.qty.toString():'0'):'0'} onChange={(qty)=>setQty(qty,itemm.tag)}/>
 
-                                </td>
+                        </td>
 
-                                <td>{itemm.icn}</td>
-                                <td>{itemm.serial_num}</td>
-                                <td>{itemm.date_captured}</td>
-                                <td>{itemm.qr_id}</td>
-                                <td>{itemm.status}</td>
-                            </tr>
+                        <td>{itemm.icn}</td>
+                        <td>{itemm.serial_num}</td>
+                        <td>{itemm.date_captured}</td>
+                        <td>{itemm.qr_id}</td>
+                        <td>{itemm.status}</td>
+                    </tr>
 
                 }
             </tbody>
