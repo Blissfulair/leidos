@@ -13,7 +13,7 @@ const Sending=()=>{
     const ref=useRef(null)
     BarcodeReader({
         onDetect:(barcode)=>{
-            if(barcode.length>3 && barcode !== 'Entet')
+            if(barcode.length>3 && barcode !== 'Enter' && !barcode.includes('/') && !barcode.includes(']') && !barcode.includes(']'))
             try{
                 JSON.parse(barcode);
             }
@@ -42,8 +42,8 @@ const Sending=()=>{
             tags.push(tag)
         }
         else {
-            const id=tags.findIndex((t)=>t==tag)
-            if(id ==-1){
+            const id=tags.findIndex((t)=>t===tag)
+            if(id ===-1){
                 tags.push(tag)
             }
             else{

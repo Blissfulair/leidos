@@ -1,11 +1,11 @@
 import {useContext } from "react"
-import BarcodeReader from "./BarcodeReader"
 import Table from "./Table"
 import AppContext from "../state/context"
+import QRcodeReader from "./QRcodeReader"
 
 const Receiving=()=>{
     const {state,dispatch} = useContext(AppContext)
-    BarcodeReader({
+    QRcodeReader({
         onDetect:(qrcode)=>{
             
             try{
@@ -14,7 +14,7 @@ const Receiving=()=>{
             catch(e){
                 const items=state.data.filter((value)=>{
                     if(value.tag === qrcode && value.quantity === 1){
-                        return
+                        return false
                     }
                     else if(value.tag === qrcode && value.quantity > 1){
                         value.quantity--;
