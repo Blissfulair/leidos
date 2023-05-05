@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
+import { RefObject,useEffect, useState } from "react"
 interface Props{
-    onDetect:(barcode:string)=>void
-    onClear? :()=>void
+    onDetect:(barcode:string)=>void,
+    ref? :RefObject<HTMLInputElement>
 }
 interface KeyData {
     key: string;
@@ -9,7 +9,7 @@ interface KeyData {
   }
   let previousKeyData: KeyData | null = null;
   let count =0;
-const BarcodeReader=({onDetect}:Props)=>{
+const BarcodeReader=({onDetect,ref}:Props)=>{
     const [barcode,setBarcode]=useState<string>("")
     const [error, setError] = useState(false)
     
@@ -17,10 +17,7 @@ const BarcodeReader=({onDetect}:Props)=>{
     useEffect(()=>{
         
         const handlekeydown=(event:KeyboardEvent)=>{
-            if(event.key==="Shift" )
-            return
-            if(event.key === 'Backspace')
-            return
+
            
             const currentTime = Date.now();
             const keyData: KeyData = { key: event.key, time: currentTime };
@@ -32,6 +29,19 @@ const BarcodeReader=({onDetect}:Props)=>{
                     setError(true)
                     count++
                 }
+
+
+                if(document.activeElement)
+                {
+                    
+                    if(document.activeElement.localName === 'input' && timeDiff < 30){
+                        event.preventDefault()
+                    }
+                }
+                if(event.key==="Shift" )
+                return
+                if(event.key === 'Backspace')
+                return
             }
             if(event.key !== 'Enter')
             setBarcode(barcode+event.key)
@@ -56,13 +66,14 @@ const BarcodeReader=({onDetect}:Props)=>{
         // timerId = setTimeout(()=>{
         //     setBarcode('')
         // },2000)
+        
         document.addEventListener("keydown",handlekeydown)
         return ()=>{
             //clearTimeout(timerId)
             document.removeEventListener("keydown",handlekeydown)
         }
 
-    },[onDetect,barcode,error])
+    },[onDetect,barcode,error,ref])
     return <></>
 }
 export default BarcodeReader

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { DataProps } from "./Table"
 type Props ={
-    item:DataProps
+    item:DataProps,
 }
 const Input=({item}:Props)=>{
     const [quantity,setQuantity]=useState(item.quantity)
@@ -9,7 +9,7 @@ const Input=({item}:Props)=>{
         setQuantity(item.quantity)
     },[item.quantity])
     return(
-        <input type="text" 
+        <input className="editQuant" id={item.tag+'input'} type="text" 
             onKeyDown={(e)=>{
                 if(e.key === 'Enter')
                 e.currentTarget.blur()

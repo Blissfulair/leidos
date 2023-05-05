@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import Leidos from './leidos';
+import './App.css'
 
 import { initialState, Provider, reducer } from './state/context';
 

@@ -35,7 +35,8 @@ const Sending=()=>{
                 }
             }
 
-        }
+        },
+        //ref:input
     })
     const getTag=(tag:string)=>{
         if (tags.length<1){
@@ -85,14 +86,14 @@ const Sending=()=>{
         setData(state.items)
     },[state.items])
     return(
-        <>
+        <div id="Send" className="tabcontent">
         {
             tags.length>0 ?
-            <button onClick={onDelete}>Delete</button> : <button disabled>Delete</button>
+            <button id="delete" onClick={onDelete}>Delete</button> : <button id="delete" disabled>Delete</button>
         }
         {
             data.length>0 && !finish?
-            <button onClick={onFinish}>Finish</button>:<button disabled>Finish</button>
+            <button id="finish" onClick={onFinish}>Finish</button>:<button id="finish" disabled>Finish</button>
         }
         {finish && data.length>0?
             (
@@ -102,8 +103,8 @@ const Sending=()=>{
             </>
             ):null
         }
-        <Table allTag={allTags} getTag={getTag} select={tags} data={data }/>
-    </>
+        <Table  allTag={allTags} getTag={getTag} select={tags} data={data }/>
+    </div>
     )
 }
 export default Sending

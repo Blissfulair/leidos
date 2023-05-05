@@ -1,38 +1,167 @@
-.App {
+/* Style the tab */
+body {
+  margin-top: 24px, 12px, 0%;
+  background-color: lightgoldenrodyellow;
+}
+
+h1 {
+  color: firebrick;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#tabs {
+  overflow: hidden;
+  border: 2px solid firebrick;
+  border-radius: 3px;
+  border-bottom: gold;
+  background-color: gold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Style the buttons inside the tab */
+#tabs button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: .8s;
+  font-size: 18px;
+  color: firebrick;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Change background color of buttons on hover */
+#tabs button:hover {
+  background-color: goldenrod;
+  border-bottom: 4px solid darkgoldenrod;
+}
+
+/* Create an active/current tablink class */
+#tabs button.active {
+  background-color: darkgoldenrod;
+  border-bottom: 4px solid firebrick;
+}
+
+/* Style the tab content */
+.tabcontent {
+  /* display: none; */
+  padding: 18px;
+  -webkit-animation: fadeEffect 1s;
+  animation: fadeEffect 1s;
+
+  border: 2px solid firebrick;
+  border-radius: 6px;
+  margin: 24px 6px;
+}
+
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+#send {
+  align-content: center;
+  display: grid;
+  grid-template-columns: 30% 30% 30%; 
+  grid-template-rows: 100px;
+  grid-column-gap: 5px;
+  margin-left: 12%;
+  color: firebrick;
+}
+
+#send button {
+  padding: 12px;
+}
+
+#send button {
+  text-align: center;
+  padding: 12px;
+  border-radius: 16px;
+  border-color: transparent;
+  font-size: x-large;
+}
+
+input {
+  
+  border-radius: 4px;
+  
+  background-color: transparent;
+  border: none;
+}
+input:focus{
+border: firebrick 2px solid;
+background-color: #fffff0;
+outline: 0;
+}
+
+#enter {
+  background-color: gold;
+  color: firebrick;
+  display: block;
+  float: right;
+  margin-right: 21%;
+  margin-bottom: 12px;
+}
+
+#finish, #delete {
+  background-color: firebrick;
+  color: gold;
+
+}
+
+#finish {
+  margin-left: -30%;
+  margin-right: 30%;
+}
+
+#delete {
+  font-size: small;
+  padding: 4px;
+  border-radius: 8px;
+  margin-left: 34.5%;
+  margin-top: 1%;
+}
+
+table, th, td {
+  border: darkgoldenrod 2px solid;
+  color: darkgoldenrod;
+}
+
+th, td {
+  width: 20%;
+  padding: 6px;
+}
+
+table {
+  margin: 36px 36% 0 36%;
+  text-align: center;
+  display: inline-block;
+}
+
+#finishTable, #finishTable td, #finishTable th {
+  border: firebrick 2px solid;
+  border: firebrick 2px solid;
+  color: firebrick;
+}
+
+#finishTable {
+  display:inline-block;
+  vertical-align:middle;
+}
+
+.deleteSelected:focus {
+  color: blueviolet;
+}
+
+#testTable {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  flex-direction: row;
 }

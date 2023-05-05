@@ -10,23 +10,23 @@ type Props={
     data:DataProps[],
     getTag?:(tag:string)=>void
     allTag?:(input:HTMLInputElement)=>void,
-    select?:string[]
+    select?:string[],
 }
 const Table=({data,getTag,allTag,select}:Props)=>{
 
     return (
-        <table>
+        <table id="finishTable">
             <thead>
                 <tr>
-                    {(allTag&&select)&&<th><input checked={(data.length === select.length && data.length >0)} type="checkbox" onChange={(e)=>allTag(e.target)} />   </th>}
+                    {(allTag&&select)&&<th><input className="deleteSelected" checked={(data.length === select.length && data.length >0)} type="checkbox" onChange={(e)=>allTag(e.target)} />   </th>}
                     <th>
-                        tag
+                        Tag
                     </th>
                     <th>
-                        quantity
+                        Quantity
                     </th>
                     <th>
-                        date
+                        Date
                     </th>
                 </tr>
             </thead>
@@ -42,7 +42,7 @@ const Table=({data,getTag,allTag,select}:Props)=>{
                                 <td>
                                     {
                                     getTag?
-                                    <Input item={item}/>
+                                    <Input   item={item}/>
                                     :
                                     item.quantity
                                     }

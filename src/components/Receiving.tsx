@@ -31,7 +31,9 @@ const Receiving=()=>{
         }
     })
     return(
-        <Table data={state.data}/>
+       <div id="Recieve" className="tabcontent">
+         <Table data={state.data}/>
+       </div>
     )
 }
 export default Receiving
